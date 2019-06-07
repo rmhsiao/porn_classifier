@@ -3,7 +3,23 @@ class Config():
 
     def __init__(self):
 
-        pass
+        self.ROOT_DIR = '../' # 'D:/asus_final/'
+        self.DATA_DIR = self.ROOT_DIR + 'data/'
+        self.TRAIN_DATA_DIR = self.DATA_DIR + 'train/'
+        self.LOG_DIR = self.ROOT_DIR + 'programs/logs/'
+
+        self.EPOCHS = 50
+        self.TRAIN_SAMPLES_PER_EPOCH = 2000
+        self.VAL_SAMPLES_PER_EPOCH = 800
+        self.BATCH_SIZE = 32
+
+        self.IMG_SIZE = (299, 299)
+
+        self.CLASS_NUM = 2
+
+        import logging
+        self.LOG_LEVEL = logging.INFO
+
 
     def __repr__(self):
 

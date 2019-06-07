@@ -1,5 +1,4 @@
 
-
 from config import CONFIG
 from utils import *
 
@@ -13,7 +12,7 @@ class MLogging:
         self.loggers = []
         self._DEFAULT_FORMAT = '[%(levelname)s] %(asctime)s (%(relativeCreated)d): {}%(message)s'
 
-        self.glogger = self.logger()
+        self.glogger = self.get_logger()  # 在不需要特別建立一個經設定的logger時，可以直接調用此glogger
 
         self.CRITICAL = logging.CRITICAL
         self.ERROR = logging.ERROR
@@ -23,7 +22,25 @@ class MLogging:
         self.NOTSET = logging.NOTSET
 
 
-    def logger(self, log_name=None, use_console=True, level=CONFIG.LOG_LEVEL, format_str=None, logger_name=None, log_dir_path=CONFIG.LOG_DIR, prefix=None):
+    def get_logger(self, log_name=None, use_console=True, level=CONFIG.LOG_LEVEL, format_str=None, logger_name=None, log_dir_path=CONFIG.LOG_DIR, prefix=None):
+
+        """
+        建立一個經設定的logging物件
+
+        回傳的logger用法與一般logging一樣，主要是簡化初始的流程
+
+        Args:
+            log_name: log檔的檔名，若不需要輸出log檔可不使用此參數(None)
+            use_console: log是否要輸出在console上面(True/False)
+            level: 要印出的log等級，與logging的用法相同
+            format_str: log內容的字串模板，預設為self._DEFAULT_FORMAT
+            logger_name: 為logger取名，等同原本logging.getLogger()的name參數
+            log_dir_path: 輸出log檔的存放目錄，預設為CONFIG.LOG_DIR
+            prefix: log時可為log的訊息加上prefix
+
+        Returns:
+            logger: 經設定的logger，相當於經調整過的logging.getLogger
+        """
 
         # get logger
         new_logger = logging.getLogger(str(len(self.loggers)) if logger_name==None else logger_name)
@@ -48,16 +65,6 @@ class MLogging:
         self.loggers.append(new_logger)
 
         return new_logger
-
-
-def progress_log(seq, total_num, name=None, format_str='processing: %s%%', log_freq=None, logger=None):
-    if log_freq==None or seq%log_freq==0:
-        if logger==None:
-            logger = mlogging.glogger
-        if name is not None:
-            format_str = '%s %s'%(name, format_str)
-        logger.info(format_str%(round((seq/total_num)*100, 2)))
-
 
 
 mlogging = MLogging()

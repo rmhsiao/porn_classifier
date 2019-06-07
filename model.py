@@ -8,6 +8,7 @@ from keras.preprocessing.image import ImageDataGenerator
 
 from config import CONFIG
 from utils import *
+from mlogging import mlogging
 
 from datetime import datetime
 import os
@@ -23,7 +24,7 @@ class PornographyClassifier(object):
         self._model_id = 'porn_class' + datetime.today().strftime('%Y%m%d%H%M%S')
 
         log_name = None if to_log_file==False else 'porn_class/%s.log'%self._model_id
-        self._logger = mlogging.logger(log_name=log_name, prefix='porn_class')
+        self._logger = mlogging.get_logger(log_name=log_name, prefix='porn_class')
         self._logger.info('model: %s'%self._model_id)
 
         self._img_size = img_size
@@ -64,7 +65,7 @@ class PornographyClassifier(object):
             # color_mode='grayscale',
             save_to_dir=generated_save_path)
 
-        self._logger(json.dumps(train_generator.class_indices))
+        self._logger.info(json.dumps(train_generator.class_indices))
 
         self._model.fit_generator(train_generator, samples_per_epoch=train_generator.samples, verbose=1, workers=4, use_multiprocessing=False)
 
@@ -78,16 +79,14 @@ class PornographyClassifier(object):
             target_size=self._img_size,
             batch_size=self._batch_size)
 
-        self._logger(json.dumps(generator.class_indices))
+        self._logger.info(json.dumps(generator.class_indices))
 
         return self._model.predict_generator(generator, generator.samples/self._batch_size, workers=4, use_multiprocessing=False, verbose=1)
-
 
         
 
 if __name__ == '__main__':
 
-    from mlogging import mlogging
     mlogging.glogger.info('start')
 
     pclassifier = PornographyClassifier()
