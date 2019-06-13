@@ -4,4 +4,6 @@
 *.pyc
 test.py
 config.py
-logs/
+logs/*
+model_base/*
+*.hdf5

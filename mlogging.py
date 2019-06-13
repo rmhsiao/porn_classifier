@@ -12,7 +12,7 @@ class MLogging:
         self.loggers = []
         self._DEFAULT_FORMAT = '[%(levelname)s] %(asctime)s (%(relativeCreated)d): {}%(message)s'
 
-        self.glogger = self.get_logger()  # 在不需要特別建立一個經設定的logger時，可以直接調用此glogger
+        self.glogger = self.get_logger()  # 在不需要特別建立一個經設定的logger時可直接調用此glogger
 
         self.CRITICAL = logging.CRITICAL
         self.ERROR = logging.ERROR
