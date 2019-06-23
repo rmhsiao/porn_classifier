@@ -3,6 +3,7 @@
 *__pycache__/
 *.pyc
 test.py
+test.ipynb
 config.py
 logs/*
 model_base/*

@@ -10,13 +10,15 @@ class Config():
         self.LOG_DIR = self.ROOT_DIR + 'programs/logs/'  # 儲存log的目錄
 
         self.SEED = 18035
+        self.TEST_DATA_RATIO = 0.1
 
-        self.EPOCHS = 30
+        self.EPOCHS = 50
         self.VAL_RATIO = 0.2  # validatino data的比例，其餘為training
         self.BATCH_SIZE = 32
+        self.LEARNING_RATE = 1e-3
 
         self.IMG_SIZE = (299, 299)
-        self.CLASS_NUM = 3
+        # self.CLASS_NUM = 3
 
         # 隱藏層的設定(neuron數, activation func)，越靠後越靠近輸出層
         self.DENSE_INFOS = [
@@ -25,7 +27,20 @@ class Config():
         ]
 
         import logging
-        self.LOG_LEVEL = logging.INFO
+        self.LOG_LEVEL = logging.DEBUG
+
+        self.STAGE_INFOS = {
+            'porn': {
+                # 'classes': ['1-normal', 'sensity'],
+                'classes': ['normal', 'sensity'],
+                'model_id': 'init_stage_porn_classifier.20190622151509.val_loss.02-0.3213-0.8876',
+            },
+            'fine_porn': {
+                # 'classes': ['2-bikini', 'all_naked'],
+                'classes': ['bikini', 'naked'],
+                'model_id': 'soft_porn_classifier.20190622035912.05-0.3722',
+            }
+        }
 
 
     def __repr__(self):
